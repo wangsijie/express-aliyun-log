@@ -4,7 +4,7 @@
   "description": "Aliyun Log Service middleware for Express.js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test/test.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,15 @@
   "bugs": {
     "url": "https://github.com/wangsijie/express-aliyun-log/issues"
   },
-  "homepage": "https://github.com/wangsijie/express-aliyun-log#readme"
+  "homepage": "https://github.com/wangsijie/express-aliyun-log#readme",
+  "dependencies": {
+    "aliyun-sdk": "^1.11.10",
+    "express-request-id": "^1.4.0",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "express": "^4.16.3",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
+  }
 }
