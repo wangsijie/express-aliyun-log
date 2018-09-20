@@ -1,0 +1,26 @@
+{
+  "name": "express-aliyun-log",
+  "version": "0.1.0",
+  "description": "Aliyun Log Service middleware for Express.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangsijie/express-aliyun-log.git"
+  },
+  "keywords": [
+    "log",
+    "middleware",
+    "express",
+    "aliyun",
+    "morgan"
+  ],
+  "author": "wangsijie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wangsijie/express-aliyun-log/issues"
+  },
+  "homepage": "https://github.com/wangsijie/express-aliyun-log#readme"
+}
