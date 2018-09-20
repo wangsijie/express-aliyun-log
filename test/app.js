@@ -20,7 +20,7 @@ module.exports = () => {
     const stream = new LogStream();
     logger(app, { stream });
 
-    app.get('/', function (req, res) {
+    app.get('/get', function (req, res) {
         res.send('Hello World!');
     });
 
