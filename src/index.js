@@ -16,7 +16,9 @@ module.exports = (app, {
 } = {}) => {
     app.use(addRequestId);
     app.use(morgan(function (tokens, req, res) {
-        const json = {
+        const logs = [];
+        logs.push({
+            __remark: 'BASIC',
             method: tokens.method(req, res),
             path: tokens.path(req, res),
             query: tokens.query(req, res),
@@ -25,8 +27,15 @@ module.exports = (app, {
             time: tokens.date(req, res, 'iso'),
             requestId: tokens['request-id'](req, res),
             responseStatus: tokens.status(req, res),
-        };
-        return JSON.stringify(json);
+        });
+        if (req.body && typeof req.body === 'object') {
+            logs.push({
+                __remark: 'BODY',
+                requestId: tokens['request-id'](req, res),
+                ...req.body
+            });
+        }
+        return JSON.stringify(logs, null, 4);
     }, {
         stream
     }));

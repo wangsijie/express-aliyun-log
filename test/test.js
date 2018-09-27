@@ -27,10 +27,22 @@ describe('测试APP返回正常', function() {
         assert.equal(query.foo, 'bar');
         assert.equal(query.foz, 'baz');
     });
+    it('包含BASIC', () => {
+        const data = stream.data;
+        let basic;
+        data.forEach(item => {
+            if (item.__remark === 'BASIC') {
+                basic = item;
+            }
+        });
+        assert.equal(typeof basic, 'object');
+    });
 
     describe('POST类型', function() {
-        before(done => {
+        before(() => {
             stream.clear();
+        });
+        it('200 OK', done => {
             request(app)
                 .post('/post?foo=bar&foz=baz')
                 .send({foo: 'bar'})
@@ -55,7 +67,27 @@ describe('测试APP返回正常', function() {
             data.forEach(item => {
                 assert(item.requestId, requestId);
             });
-            console.log(data);
+        });
+        it('包含BASIC', () => {
+            const data = stream.data;
+            let basic;
+            data.forEach(item => {
+                if (item.__remark === 'BASIC') {
+                    basic = item;
+                }
+            });
+            assert.equal(typeof basic, 'object');
+        });
+        it('得到post data，参数foo=bar', () => {
+            const data = stream.data;
+            let body;
+            data.forEach(item => {
+                if (item.__remark === 'BODY') {
+                    body = item;
+                }
+            });
+            assert.equal(typeof body, 'object');
+            assert.equal(body.foo, 'bar');
         });
     });
 });

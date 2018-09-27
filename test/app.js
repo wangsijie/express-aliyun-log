@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const logger = require('../src');
 
 class LogStream {
@@ -11,13 +12,19 @@ class LogStream {
     }
 
     write(chunk) {
-        this.data.push(JSON.parse(chunk.toString()));
+        const data = JSON.parse(chunk.toString());
+        if (Array.isArray(data)) {
+            data.forEach(item => this.data.push(item));
+        } else {
+            this.data.push(data);
+        }
     }
 }
 
 module.exports = () => {
     const app = express();
     const stream = new LogStream();
+    app.use(bodyParser.json());
     logger(app, { stream });
 
     app.get('/get', function (req, res) {
