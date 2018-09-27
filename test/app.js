@@ -32,7 +32,9 @@ module.exports = () => {
     });
 
     app.post('/post', function (req, res) {
-        res.send('Post test success');
+        res.json({
+            foo: 'bar'
+        });
     });
 
     return {app, stream};

@@ -4,13 +4,13 @@
 
 ## TODO
 
-- [ ] query单独一条
+- [x] query单独一条
 - [ ] 处理多条数据
-- [ ] body单独一条
-- [ ] 获取response
+- [x] body单独一条
+- [x] 获取response
 - [ ] aliyun参数校验
 - [ ] 最大长度限制
-- [ ] key-value中value为object的问题
+- [x] key-value中value为object的问题
 
 ## License
 

@@ -21,13 +21,20 @@ module.exports = (app, {
             __remark: 'BASIC',
             method: tokens.method(req, res),
             path: tokens.path(req, res),
-            query: tokens.query(req, res),
             responseTime: tokens['response-time'](req, res) + 'ms',
             remoteAddress: tokens['remote-addr'](req, res),
             time: tokens.date(req, res, 'iso'),
             requestId: tokens['request-id'](req, res),
-            responseStatus: tokens.status(req, res),
+            responseStatus: tokens.status(req, res)
         });
+        const query = tokens.query(req, res);
+        if (query) {
+            logs.push({
+                __remark: 'QUERY',
+                requestId: tokens['request-id'](req, res),
+                ...query
+            });
+        }
         if (req.body && typeof req.body === 'object') {
             logs.push({
                 __remark: 'BODY',
@@ -36,6 +43,30 @@ module.exports = (app, {
             });
         }
         return JSON.stringify(logs, null, 4);
+    }, {
+        stream
+    }));
+
+    const _send = app.response.send;
+    app.response.send = function (body) {
+        _send.call(this, body);
+        this.__morgan_body_response = body;
+    };
+    app.use(morgan(function (tokens, req, res) {
+        if (res.__morgan_body_response) {
+            let data = {data: res.__morgan_body_response};
+            if (/application\/json/.test(res.getHeader('Content-Type'))) {
+                try {
+                    data = JSON.parse(data.data);
+                } catch (e) {}
+            }
+            const log = {
+                __remark: 'RESPONSE',
+                requestId: tokens['request-id'](req, res),
+                ...data
+            };
+            return JSON.stringify(log, null, 4);
+        }
     }, {
         stream
     }));

@@ -22,7 +22,13 @@ describe('测试APP返回正常', function() {
         assert.equal(stream.data[0].path, '/get');
     });
     it('query正确', () => {
-        const query = stream.data[0].query;
+        const data = stream.data;
+        let query;
+        data.forEach(item => {
+            if (item.__remark === 'QUERY') {
+                query = item;
+            }
+        });
         assert.equal(typeof query, 'object');
         assert.equal(query.foo, 'bar');
         assert.equal(query.foz, 'baz');
@@ -48,14 +54,17 @@ describe('测试APP返回正常', function() {
                 .send({foo: 'bar'})
                 .expect(200, done);
         });
-        // it('得到3条log', () => {
-        //     assert.equal(stream.data.length, 3);
-        // });
         it('path正确', () => {
             assert.equal(stream.data[0].path, '/post');
         });
         it('query正确', () => {
-            const query = stream.data[0].query;
+            const data = stream.data;
+            let query;
+            data.forEach(item => {
+                if (item.__remark === 'QUERY') {
+                    query = item;
+                }
+            });
             assert.equal(typeof query, 'object');
             assert.equal(query.foo, 'bar');
             assert.equal(query.foz, 'baz');
@@ -88,6 +97,17 @@ describe('测试APP返回正常', function() {
             });
             assert.equal(typeof body, 'object');
             assert.equal(body.foo, 'bar');
+        });
+        it('得到response data，foo=bar', () => {
+            const data = stream.data;
+            let response;
+            data.forEach(item => {
+                if (item.__remark === 'RESPONSE') {
+                    response = item;
+                }
+            });
+            assert.equal(typeof response, 'object');
+            assert.equal(response.foo, 'bar');
         });
     });
 });
