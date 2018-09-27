@@ -42,7 +42,7 @@ module.exports = (app, {
                 ...req.body
             });
         }
-        return JSON.stringify(logs, null, 4);
+        return JSON.stringify(logs);
     }, {
         stream
     }));
@@ -65,7 +65,7 @@ module.exports = (app, {
                 requestId: tokens['request-id'](req, res),
                 ...data
             };
-            return JSON.stringify(log, null, 4);
+            return JSON.stringify(log);
         }
     }, {
         stream

@@ -5,7 +5,7 @@
 ## TODO
 
 - [x] query单独一条
-- [ ] 处理多条数据
+- [x] 处理多条数据
 - [x] body单独一条
 - [x] 获取response
 - [ ] aliyun参数校验
