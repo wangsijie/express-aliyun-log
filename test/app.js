@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const logger = require('../src');
+const logger = require('../src/app');
 
 class LogStream {
     constructor() {

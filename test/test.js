@@ -51,7 +51,7 @@ describe('测试APP返回正常', function() {
         it('200 OK', done => {
             request(app)
                 .post('/post?foo=bar&foz=baz')
-                .send({foo: 'bar'})
+                .send({foo: 'bar', nested: {foz: 'baz'}})
                 .expect(200, done);
         });
         it('path正确', () => {

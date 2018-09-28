@@ -1,11 +1,20 @@
 const ALI = require('aliyun-sdk');
 
 class AliyunLogger {
-    constructor(options) {
+    constructor(options = {}) {
         this.options = options;
+        if (!options.accessKeyId) {
+            throw new Error('Error configuration for Aliyun(accessKeyId)');
+        }
+        if (!options.secretAccessKey) {
+            throw new Error('Error configuration for Aliyun(secretAccessKey)');
+        }
+        if (!options.endpoint) {
+            throw new Error('Error configuration for Aliyun(endpoint)');
+        }
         this.sls = new ALI.SLS({
-            accessKeyId: options.ak,
-            secretAccessKey: options.sk,
+            accessKeyId: options.accessKeyId,
+            secretAccessKey: options.secretAccessKey,
             endpoint: options.endpoint,
             apiVersion: '2015-06-01'
         });
@@ -14,7 +23,20 @@ class AliyunLogger {
         const logGroup = {
             logs : [{
                 time:  Math.floor(new Date().getTime()/1000),
-                contents: Object.keys(data).map(key => ({key, value: data[key]}))
+                contents: Object.keys(data).map(key => {
+                    let value = data[key];
+                    if (typeof value === 'object') {
+                        try {
+                            value = JSON.stringify(value);
+                        } catch (e) {
+                            value = String(value);
+                        }
+                    }
+                    return {
+                        key,
+                        value,
+                    }
+                })
             }],
             topic
         };
