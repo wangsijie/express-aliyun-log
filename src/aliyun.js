@@ -32,6 +32,9 @@ class AliyunLogger {
                             value = String(value);
                         }
                     }
+                    if (typeof value !== 'string') {
+                        value = String(value);
+                    }
                     return {
                         key,
                         value,
