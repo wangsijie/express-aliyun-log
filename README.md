@@ -49,7 +49,7 @@ const options = {
 1. BASIC 基本的请求记录
 2. QUERY 链接上的参数，为方便索引，单独拉出一条
 3. BODY 请求body，需要自行通过bodyParser等中间件解析，没有的话不记录
-4. RESPONSE 请求的返回值
+4. RESPONSE 请求的返回值(只有通过res.json的返回才会记录)
 
 ```
 __source__:  

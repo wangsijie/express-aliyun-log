@@ -48,10 +48,12 @@ module.exports = (app, {
         stream
     }));
 
-    const _send = app.response.send;
-    app.response.send = function (body) {
-        _send.call(this, body);
-        this.__morgan_body_response = body;
+    const _json = app.response.json;
+    app.response.json = function (body) {
+        _json.call(this, body);
+        if (body && typeof body === 'object') {
+            this.__morgan_body_response = JSON.stringify(body);
+        }
     };
     app.use(morgan(function (tokens, req, res) {
         if (res.__morgan_body_response) {
@@ -61,7 +63,7 @@ module.exports = (app, {
                 isBodyCut = true;
             }
             let data = {data: res.__morgan_body_response};
-            if (!isBodyCut && /application\/json/.test(res.getHeader('Content-Type'))) {
+            if (!isBodyCut) {
                 try {
                     data = JSON.parse(data.data);
                 } catch (e) {}
